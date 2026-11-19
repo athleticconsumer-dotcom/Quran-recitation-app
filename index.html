@@ -69,16 +69,43 @@ header{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px s
 .prog-txt{font-size:13px;color:var(--muted);margin-top:6px}
 .head-btns{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
 /* whole page layout */
-.page-mode #ayahWrap{direction:rtl;text-align:justify;text-align-last:center;background:var(--card);border:1px solid var(--line);border-radius:14px;
-  padding:18px 16px;font-family:"Amiri Quran",serif;font-size:var(--qsize,30px);line-height:2.35}
-.page-mode .ayah{display:inline;background:none;border:0;padding:3px 0;margin:0;border-radius:8px;box-shadow:none;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-.page-mode .ayah .ar{display:inline;font-size:inherit;line-height:inherit}
-.page-mode .ayah-top,.page-mode .ayah .tr,.page-mode .ayah .acts{display:none!important}
-.page-mode .ayah.inrange{background:var(--range)}
-.page-mode.full-range .ayah.inrange:not(.playing){background:none}
-.page-mode .ayah.playing{background:var(--play);box-shadow:none}
-.page-mode .ayah.mem{border-left:0}
-.page-mode .ayah.mem .num{background:var(--accent);color:#fff}
+.mnav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:2px 0 10px}
+.mnav button{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 14px;font-size:14px}
+.mnav span{font-size:13px;color:var(--muted);text-align:center}
+.mpage{--mink:#1b1b1b;background:#fffaf0;color:var(--mink);border-radius:6px;padding:7px;
+  box-shadow:0 2px 14px rgba(60,40,0,.12);border:2px solid #b8913a;position:relative;touch-action:pan-y}
+.mframe{border:3px double #0f6b55;border-radius:4px;padding:8px 10px 6px;outline:1px solid #d8c080;outline-offset:-7px}
+.mhead{display:flex;justify-content:space-between;font-family:"Amiri Quran",serif;font-size:15px;color:#7a5a1a;padding:0 4px 4px;border-bottom:1px solid #e3d3a5;margin-bottom:6px;direction:rtl}
+.mfoot{text-align:center;font-family:"Amiri Quran",serif;font-size:15px;color:#7a5a1a;border-top:1px solid #e3d3a5;margin-top:6px;padding-top:2px}
+.mbody{direction:rtl;font-family:"Amiri Quran",serif;font-size:var(--mfs,22px);line-height:1}
+.mline{display:flex;justify-content:space-between;align-items:center;gap:.12em;white-space:nowrap;height:2.05em}
+.mline.short{justify-content:center;gap:.32em}
+.mline.blank{height:2.05em}
+.sh{display:flex;align-items:center;justify-content:center;height:1.75em;margin:.15em 0;border:2px solid #b8913a;border-radius:.9em;
+  background:linear-gradient(90deg,#e8f2ec,#fff8e6 30%,#fff8e6 70%,#e8f2ec);color:#0f4d3e;font-size:1em;position:relative}
+.sh::before,.sh::after{content:"۞";position:absolute;top:50%;transform:translateY(-50%);color:#b8913a;font-size:.8em}
+.sh::before{right:.6em}.sh::after{left:.6em}
+.bsm{text-align:center;height:2.05em;display:flex;align-items:center;justify-content:center}
+.mflow{direction:rtl;text-align:justify;text-align-last:center;line-height:2.1}
+.w{border-radius:.25em;cursor:pointer;padding:0 .02em}
+.end{display:inline-flex;align-items:center;justify-content:center;min-width:1.35em;height:1.35em;border:1.5px solid #0f6b55;border-radius:50%;
+  color:#0f6b55;font-size:.62em;cursor:pointer;flex:none;margin:0 .1em}
+.end.mem{background:#0f6b55;color:#fff}
+#mushaf .inrange{background:rgba(217,165,33,.09)}
+.full-range #mushaf .inrange:not(.playing){background:none}
+.w.playing,.end.playing{background:rgba(217,165,33,.45)}
+.hide .w:not(.revealed){filter:blur(6px);opacity:.5}
+/* tajweed colours */
+.tajweed .tj-ham_wasl,.tajweed .tj-slnt,.tajweed .tj-laam_shamsiyah{color:#9a9a9a}
+.tajweed .tj-madda_normal{color:#537fff}.tajweed .tj-madda_permissible{color:#4050ff}
+.tajweed .tj-madda_obligatory{color:#2144c1}.tajweed .tj-madda_necessary{color:#000ebc}
+.tajweed .tj-qalaqah{color:#dd0008}.tajweed .tj-ikhafa_shafawi{color:#d500b7}.tajweed .tj-ikhafa{color:#9400a8}
+.tajweed .tj-idgham_shafawi{color:#58b800}.tajweed .tj-iqlab{color:#26bffd}.tajweed .tj-idgham_ghunnah{color:#169777}
+.tajweed .tj-idgham_wo_ghunnah{color:#169200}.tajweed .tj-idgham_mutajanisayn,.tajweed .tj-idgham_mutaqaribayn{color:#a1a1a1}
+.tajweed .tj-ghunnah{color:#ff7e1e}
+.legend-tj{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;padding:8px 0 4px}
+.legend-tj span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--c);margin-right:5px;vertical-align:-1px}
+@media (prefers-color-scheme:dark){.mpage{filter:none}}
 .msg{text-align:center;color:var(--muted);padding:40px 10px}
 
 /* choose */
@@ -241,7 +268,14 @@ header{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px s
   <div class="field"><span>Basmala before ayah 1</span><input type="checkbox" id="basmalaChk"></div>
   <div class="field"><span>Follow the reciter<small>Scroll to the ayah being recited</small></span><input type="checkbox" id="followChk"></div>
   <h3 style="margin-top:20px">Reading</h3>
-  <div class="field"><span>Layout</span><select id="layoutSel"><option value="lines">Line by line</option><option value="page">Whole page</option></select></div>
+  <div class="field"><span>Layout</span><select id="layoutSel"><option value="lines">Line by line</option><option value="page">Mushaf (pages)</option></select></div>
+  <div class="field"><span>Tajweed colours</span><input type="checkbox" id="tajChk"></div>
+  <div class="legend-tj">
+    <span style="--c:#dd0008">Qalqalah</span><span style="--c:#ff7e1e">Ghunnah</span><span style="--c:#9400a8">Ikhfa'</span>
+    <span style="--c:#d500b7">Ikhfa' shafawi</span><span style="--c:#169777">Idgham + ghunnah</span><span style="--c:#169200">Idgham w/o ghunnah</span>
+    <span style="--c:#58b800">Idgham shafawi</span><span style="--c:#26bffd">Iqlab</span><span style="--c:#537fff">Madd 2</span>
+    <span style="--c:#4050ff">Madd 2/4/6</span><span style="--c:#2144c1">Madd 4/5</span><span style="--c:#000ebc">Madd 6</span><span style="--c:#9a9a9a">Silent / wasl</span>
+  </div>
   <div class="field"><span>Translation</span><select id="trSel"></select></div>
   <div class="field"><span>Arabic text size</span><select id="sizeSel"></select></div>
   <div class="field"><span>Hide text (test yourself)<small>Tap an ayah to reveal it</small></span><input type="checkbox" id="hideChk"></div>
@@ -299,7 +333,7 @@ const JUZ = [[1,1],[2,142],[2,253],[3,93],[4,24],[4,148],[5,82],[6,111],[7,88],[
   [18,75],[21,1],[23,1],[25,21],[27,56],[29,46],[33,31],[36,28],[39,32],[41,47],[46,1],[51,31],[58,1],[67,1],[78,1]];
 
 const S = Object.assign({surah:1, from:1, to:7, repAyah:3, repRange:0, gap:0, speed:1, reciter:'murattal',
-  tr:'de.bubenheim', size:30, layout:'lines', hide:false, basmala:true, follow:true}, store.get('settings', {}));
+  tr:'de.bubenheim', size:30, layout:'lines', tajweed:false, page:1, hide:false, basmala:true, follow:true}, store.get('settings', {}));
 const save = () => store.set('settings', S);
 const PR = Object.assign({mem:{}, working:[], sec:{}, days:{}, total:0}, store.get('progress', {}));
 const saveProgress = () => store.set('progress', PR);
@@ -340,7 +374,7 @@ function setMemRange(s, f, t, v){
   if(!Object.keys(PR.mem[s]).length) delete PR.mem[s];
   saveProgress();
   if(s === S.surah) for(let a = f; a <= t; a++){ const el = document.getElementById('a' + a); if(el) el.classList.toggle('mem', v); }
-  updateSurahProgress();
+  refreshMemMarks(); updateSurahProgress();
 }
 function toggleWorking(s){
   const i = PR.working.indexOf(s);
@@ -380,17 +414,103 @@ function stripBasmala(text, surah){
   if(w.length > 4 && norm(w.slice(0,4).join(' ')) === norm(BASMALA)) return w.slice(4).join(' ');
   return text;
 }
+/* tajweed: both sources are turned into runs [[text, class], ...] and split into words */
+const TZ = {h:'ham_wasl', s:'slnt', l:'laam_shamsiyah', n:'madda_normal', p:'madda_permissible', m:'madda_necessary', q:'qalaqah',
+  o:'madda_obligatory', c:'ikhafa_shafawi', f:'ikhafa', w:'idgham_shafawi', i:'iqlab', a:'idgham_ghunnah', u:'idgham_wo_ghunnah',
+  d:'idgham_mutajanisayn', b:'idgham_mutaqaribayn', g:'ghunnah'};
+function runsFromTanzil(str){
+  const out = [], re = /\[([a-z])(?::\d+)?\[([^\]]*)\]/g; let last = 0, m;
+  str = str.replace(/^﻿/, '');
+  while((m = re.exec(str))){ if(m.index > last) out.push([str.slice(last, m.index), '']); out.push([m[2], TZ[m[1]] || '']); last = re.lastIndex; }
+  if(last < str.length) out.push([str.slice(last), '']);
+  return out;
+}
+function runsFromQuranCom(html){
+  const out = [], doc = new DOMParser().parseFromString('<div>' + html + '</div>', 'text/html');
+  (function walk(node, cls){
+    node.childNodes.forEach(c => {
+      if(c.nodeType === 3) out.push([c.textContent, cls]);
+      else if(c.nodeType === 1 && !(c.classList && c.classList.contains('end'))) walk(c, c.tagName === 'TAJWEED' ? (c.getAttribute('class') || cls) : cls);
+    });
+  })(doc.body.firstChild, '');
+  return out;
+}
+function runsToWords(runs){
+  const words = []; let cur = [];
+  runs.forEach(([t, c]) => {
+    t.split(/(\s+)/).forEach(part => {
+      if(!part) return;
+      if(/^\s+$/.test(part)){ if(cur.length){ words.push(cur); cur = []; } }
+      else cur.push([part, c]);
+    });
+  });
+  if(cur.length) words.push(cur);
+  return words;
+}
+const wordPlain = w => w.map(r => r[0]).join('');
+const wordHtml = w => w.map(([t, c]) => c ? `<span class="tj-${c}">${esc(t)}</span>` : esc(t)).join('');
+function stripBasmalaWords(words, surah){
+  if(surah === 1 || surah === 9 || words.length <= 4) return words;
+  return norm(words.slice(0, 4).map(wordPlain).join(' ')) === norm(BASMALA) ? words.slice(4) : words;
+}
 async function loadSurah(n){
-  const key = 'surah_' + n + '_' + S.tr;
+  const key = 'sv2_' + n + '_' + S.tr;
   let data = store.get(key, null);
   if(!data){
-    const eds = S.tr === 'none' ? 'quran-uthmani' : 'quran-uthmani,' + S.tr;
+    const eds = 'quran-uthmani,quran-tajweed' + (S.tr === 'none' ? '' : ',' + S.tr);
     let res = await getJSON(`https://api.alquran.cloud/v1/surah/${n}/editions/${eds}`);
     if(!Array.isArray(res)) res = [res];
-    const ar = res[0].ayahs, tr = res[1] ? res[1].ayahs : [];
-    data = ar.map((a, i) => ({n:a.numberInSurah, text:stripBasmala(a.text, n), tr: tr[i] ? tr[i].text : '', global:a.number}));
+    const ar = res[0].ayahs, tj = res[1] ? res[1].ayahs : [], tr = res[2] ? res[2].ayahs : [];
+    data = ar.map((a, i) => {
+      let tjw = tj[i] ? stripBasmalaWords(runsToWords(runsFromTanzil(tj[i].text)), n) : null;
+      return {n:a.numberInSurah, text:stripBasmala(a.text, n), tj: tjw ? tjw.map(wordHtml).join(' ') : '', tr: tr[i] ? tr[i].text : '', global:a.number, page:a.page || 1};
+    });
     store.set(key, data);
   }
+  return data;
+}
+
+/* mushaf pages (Madani, 604 pages): quran.com gives the real line layout; alquran.cloud is the fallback */
+const PAGES = {};
+async function loadPage(p){
+  if(PAGES[p]) return PAGES[p];
+  const cached = store.get('pg1_' + p, null);
+  if(cached) return (PAGES[p] = cached);
+  let data;
+  try{
+    const r = await fetch(`https://api.quran.com/api/v4/verses/by_page/${p}?words=true&word_fields=text_uthmani,line_number&fields=text_uthmani_tajweed,chapter_id&per_page=50`);
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    const tokens = [];
+    let juz = 0;
+    j.verses.forEach(v => {
+      const sNum = v.chapter_id || +v.verse_key.split(':')[0], a = v.verse_number, k = sNum + ':' + a;
+      juz = juz || v.juz_number || 0;
+      const ws = v.words.filter(w => w.char_type_name !== 'end');
+      const tjw = v.text_uthmani_tajweed ? runsToWords(runsFromQuranCom(v.text_uthmani_tajweed)) : [];
+      let wi = 0;
+      v.words.forEach(w => {
+        if(w.char_type_name === 'end') tokens.push({t:'e', k, a, l:w.line_number});
+        else { const h = tjw.length === ws.length ? wordHtml(tjw[wi]) : esc(w.text_uthmani || w.text || ''); wi++;
+          tokens.push({t:'w', k, a, l:w.line_number, h, first: w.position === 1}); }
+      });
+    });
+    if(!tokens.length || !tokens.every(t => t.l)) throw new Error('no line data');
+    data = {mode:'lines', tokens, juz};
+  }catch(e){
+    const [u, t] = await Promise.all([getJSON(`https://api.alquran.cloud/v1/page/${p}/quran-uthmani`), getJSON(`https://api.alquran.cloud/v1/page/${p}/quran-tajweed`).catch(() => null)]);
+    const tokens = [];
+    u.ayahs.forEach((ay, i) => {
+      const sNum = ay.surah.number, a = ay.numberInSurah, k = sNum + ':' + a;
+      let words = t && t.ayahs[i] ? runsToWords(runsFromTanzil(t.ayahs[i].text)) : runsToWords([[ay.text.replace(/^﻿/, ''), '']]);
+      if(a === 1) words = stripBasmalaWords(words, sNum);
+      words.forEach((w, wi) => tokens.push({t:'w', k, a, h:wordHtml(w), first: wi === 0}));
+      tokens.push({t:'e', k, a});
+    });
+    data = {mode:'flow', tokens, juz: u.ayahs[0] ? u.ayahs[0].juz : 0};
+  }
+  PAGES[p] = data;
+  store.set('pg1_' + p, data);
   return data;
 }
 
@@ -502,12 +622,12 @@ function renderPicker(){
     if(changed || P.active) stop();
     S.surah = pick.s; S.from = pick.f; S.to = pick.t; save();
     pick = null; showView('read');
-    if(changed || !AYAHS.length) showSurah(); else { markRange(); updateTitle(); status(); }
+    if(changed || !AYAHS.length || S.layout === 'page') showSurah(); else { markRange(); updateTitle(); status(); }
   };
 }
 
 /* ---------- read view ---------- */
-async function showSurah(){
+async function showSurah(keepPage){
   const main = $('#viewRead');
   main.innerHTML = '<div class="msg">Loading surah…</div>';
   updateTitle();
@@ -518,13 +638,18 @@ async function showSurah(){
   }
   const m = metaOf(S.surah), count = AYAHS.length;
   S.from = Math.min(Math.max(1, S.from), count); S.to = Math.min(Math.max(S.from, S.to), count); save();
+  if(S.layout === 'page'){
+    if(!keepPage) S.page = (AYAHS[S.from - 1] || {}).page || 1;
+    applyView(); updateTitle(); status();
+    return goPage(S.page);
+  }
   let html = `<div class="surah-head"><div class="ar">${esc(m.ar)}</div><div class="en">${esc(m.en)} · ${esc(m.tr || '')} · ${count} ayat</div>
     <div class="prog"><div class="bar"><i id="surahBar"></i></div><div class="prog-txt" id="surahProg"></div></div>
     <div class="head-btns"><button class="pill" id="workBtn"></button><button class="pill" id="memAllBtn"></button></div></div>`;
   if(S.surah !== 1 && S.surah !== 9) html += `<div class="basmala">${BASMALA}</div>`;
   html += '<div id="ayahWrap">' + AYAHS.map(a => `<div class="ayah${isMem(S.surah,a.n)?' mem':''}" data-a="${a.n}" id="a${a.n}">
       <div class="ayah-top"><button class="chk" data-act="mem" aria-label="Mark ayah ${a.n} memorized">✓</button><span class="ref">${S.surah}:${a.n}</span></div>
-      <div class="ar"><span class="txt">${esc(a.text)}</span> <span class="num">${arDigits(a.n)}</span></div>
+      <div class="ar"><span class="txt">${a.tj || esc(a.text)}</span> <span class="num">${arDigits(a.n)}</span></div>
       ${a.tr ? `<div class="tr"><b>${a.n}.</b> ${esc(a.tr)}</div>` : ''}
       <div class="acts">
         <button class="primary" data-act="play">▶ Play from here</button>
@@ -545,17 +670,107 @@ async function showSurah(){
 }
 function markRange(){
   $$('.ayah').forEach(el => { const n = +el.dataset.a; el.classList.toggle('inrange', n >= S.from && n <= S.to); });
+  $$('#mushaf [data-k]').forEach(el => { const [s, a] = el.dataset.k.split(':').map(Number); el.classList.toggle('inrange', s === S.surah && a >= S.from && a <= S.to); });
   $('#viewRead').classList.toggle('full-range', S.from === 1 && S.to === AYAHS.length);
 }
 function applyView(){
   document.documentElement.style.setProperty('--qsize', S.size + 'px');
   const r = $('#viewRead');
   r.classList.toggle('hide', S.hide);
-  r.classList.toggle('page-mode', S.layout === 'page');
+  document.body.classList.toggle('tajweed', S.tajweed);
+  $('#tajChk').checked = S.tajweed;
   $('#hideBtn').textContent = S.hide ? 'Show text' : 'Hide text';
-  $('#layoutBtn').textContent = S.layout === 'page' ? '☰ Lines' : '▤ Page';
+  $('#layoutBtn').textContent = S.layout === 'page' ? '☰ Lines' : '📖 Mushaf';
   $('#layoutSel').value = S.layout;
 }
+let pageToken = 0;
+async function goPage(p){
+  p = Math.min(604, Math.max(1, p));
+  S.page = p; save();
+  const main = $('#viewRead'), my = ++pageToken;
+  if(!$('#mushaf')) main.innerHTML = '<div class="msg">Loading page…</div>';
+  let data;
+  try{ data = await loadPage(p); }
+  catch(e){
+    main.innerHTML = `<div class="msg">Could not load page ${p} (${esc(e.message)}).<br><br><button class="iconbtn" id="retry">Try again</button></div>`;
+    $('#retry').onclick = () => goPage(p); return;
+  }
+  if(my !== pageToken) return;
+  main.innerHTML = `<div class="mnav"><button id="pgNext">‹ Next</button><span id="pgInfo"></span><button id="pgPrev">Back ›</button></div>
+    <div class="mpage" id="mushaf"><div class="mframe">${renderPage(data, p)}</div></div>
+    <div class="mnav" style="margin-top:10px"><button id="pgNext2">‹ Next page</button><button id="pgPrev2">Previous page ›</button></div>`;
+  const firstK = data.tokens[0] ? data.tokens[0].k : S.surah + ':1';
+  $('#pgInfo').textContent = `Page ${p} · Juz ${data.juz || '–'} · ${metaOf(+firstK.split(':')[0]).en}`;
+  $('#pgNext').onclick = $('#pgNext2').onclick = () => { goPage(p + 1); window.scrollTo(0, 0); };
+  $('#pgPrev').onclick = $('#pgPrev2').onclick = () => { goPage(p - 1); window.scrollTo(0, 0); };
+  fitMushaf(); markRange(); refreshMemMarks();
+  if(P.active) highlight();
+  if(p < 604) loadPage(p + 1).catch(() => {});
+}
+function surahHeader(n){ const m = metaOf(n); return `<div class="sh">${esc(m.ar || 'سورة ' + n)}</div>`; }
+const bsmLine = () => `<div class="bsm">${BASMALA}</div>`;
+const tokHtml = t => t.t === 'e' ? `<span class="end" data-k="${t.k}">${arDigits(t.a)}</span>` : `<span class="w" data-k="${t.k}">${t.h}</span>`;
+function renderPage(d, p){
+  let body = '';
+  if(d.mode === 'lines'){
+    const lines = {}; let maxL = 0;
+    d.tokens.forEach(t => { (lines[t.l] = lines[t.l] || []).push(t); maxL = Math.max(maxL, t.l); });
+    const total = p <= 2 ? maxL : Math.max(15, maxL);
+    for(let n = 1; n <= total; n++){
+      if(lines[n]){ body += `<div class="mline">${lines[n].map(tokHtml).join('')}</div>`; continue; }
+      let m = n; while(m <= total && !lines[m]) m++;
+      const gap = m - n;
+      let next = 0;
+      if(m <= total){ const t = lines[m][0]; if(t.a === 1 && t.first) next = +t.k.split(':')[0]; }
+      else { const last = d.tokens[d.tokens.length - 1], ls = +last.k.split(':')[0]; if(last.a >= metaOf(ls).count && ls < 114) next = ls + 1; }
+      let block = '';
+      if(next){
+        if(next === 1 || next === 9) block = surahHeader(next) + '<div class="mline blank"></div>'.repeat(gap - 1);
+        else if(gap >= 2) block = surahHeader(next) + bsmLine() + '<div class="mline blank"></div>'.repeat(gap - 2);
+        else block = m <= total ? bsmLine() : surahHeader(next);
+      } else block = '<div class="mline blank"></div>'.repeat(gap);
+      body += block; n = m - 1;
+    }
+  } else {
+    let para = [];
+    const flush = () => { if(para.length){ body += `<div class="mflow">${para.join(' ')}</div>`; para = []; } };
+    d.tokens.forEach(t => {
+      const sN = +t.k.split(':')[0];
+      if(t.t === 'w' && t.a === 1 && t.first){ flush(); body += surahHeader(sN) + (sN !== 1 && sN !== 9 ? bsmLine() : ''); }
+      para.push(tokHtml(t));
+    });
+    flush();
+  }
+  const firstS = d.tokens[0] ? +d.tokens[0].k.split(':')[0] : S.surah;
+  return `<div class="mhead"><span>${esc(metaOf(firstS).ar || '')}</span><span>الجزء ${arDigits(d.juz || '')}</span></div>
+    <div class="mbody">${body}</div><div class="mfoot">${arDigits(p)}</div>`;
+}
+function fitMushaf(){
+  const body = $('#mushaf .mbody'); if(!body) return;
+  const W = body.clientWidth; if(!W) return;
+  let fs = Math.max(14, Math.min(34, W / 15));
+  body.style.setProperty('--mfs', fs + 'px');
+  const lines = [...body.querySelectorAll('.mline')].filter(l => l.children.length);
+  if(!lines.length) return;
+  const need = l => { let w = 0; for(const c of l.children) w += c.getBoundingClientRect().width; return w + (l.children.length - 1) * fs * 0.12; };
+  const maxNeed = Math.max(...lines.map(need));
+  fs = Math.max(12, Math.min(40, fs * (W * 0.985) / maxNeed));
+  body.style.setProperty('--mfs', fs + 'px');
+  lines.forEach(l => l.classList.toggle('short', need(l) < W * 0.72));
+}
+addEventListener('resize', () => { if(S.layout === 'page') fitMushaf(); });
+function refreshMemMarks(){
+  $$('#mushaf .end').forEach(el => { const [s, a] = el.dataset.k.split(':').map(Number); el.classList.toggle('mem', isMem(s, a)); });
+}
+// swipe between pages (right-to-left book: swipe right = next page)
+let tx = 0, ty = 0;
+document.addEventListener('touchstart', e => { if(e.target.closest('#mushaf')){ tx = e.touches[0].clientX; ty = e.touches[0].clientY; } else tx = null; }, {passive:true});
+document.addEventListener('touchend', e => {
+  if(tx == null || S.layout !== 'page') return;
+  const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+  if(Math.abs(dx) > 60 && Math.abs(dy) < 50){ goPage(S.page + (dx > 0 ? 1 : -1)); window.scrollTo(0, 0); }
+}, {passive:true});
+
 function updateSurahProgress(){
   const bar = $('#surahBar'); if(!bar) return;
   const n = AYAHS.length, c = memCount(S.surah), pct = n ? Math.round(c / n * 100) : 0, w = PR.working.includes(S.surah);
@@ -568,7 +783,19 @@ function updateSurahProgress(){
   $('#memAllBtn').classList.toggle('on', c === n && n > 0);
 }
 function highlight(){
-  $$('.ayah.playing').forEach(e => e.classList.remove('playing'));
+  $$('.playing').forEach(e => e.classList.remove('playing'));
+  if(S.layout === 'page' && $('#mushaf')){
+    if(!P.active) return;
+    const els = $$(`#mushaf [data-k="${S.surah}:${P.cur}"]`);
+    if(!els.length){
+      const pg = (AYAHS[P.cur - 1] || {}).page;
+      if(pg && pg !== S.page && S.follow) goPage(pg);
+      return;
+    }
+    els.forEach(e => e.classList.add('playing'));
+    if(S.follow && view === 'read') els[0].scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
   const el = document.getElementById('a' + P.cur);
   if(el && P.active){
     el.classList.add('playing');
@@ -781,7 +1008,7 @@ function renderProgress(){
   box.innerHTML = h;
   box.querySelectorAll('[data-jump]').forEach(r => r.onclick = () => {
     const s = +r.dataset.jump, f = +r.dataset.f || 0, t = +r.dataset.t || 0;
-    if(f){ if(S.surah !== s || P.active) stop(); const ch = S.surah !== s; S.surah = s; S.from = f; S.to = t; save(); showView('read'); if(ch) showSurah(); else { markRange(); updateTitle(); } }
+    if(f){ if(S.surah !== s || P.active) stop(); const ch = S.surah !== s; S.surah = s; S.from = f; S.to = t; save(); showView('read'); if(ch || S.layout === 'page') showSurah(); else { markRange(); updateTitle(); } }
     else { showView('choose'); openPicker(s); }
   });
   $('#addMinBtn').onclick = () => {
@@ -792,33 +1019,46 @@ function renderProgress(){
 
 /* ---------- interactions ---------- */
 function setRange(from, to){ S.from = from; S.to = Math.max(from, to); save(); markRange(); updateTitle(); status(); }
-function doAct(act, n){
+async function doAct(act, n, s = S.surah){
+  if(s !== S.surah && act !== 'mem'){
+    stop(); S.surah = s;
+    try{ AYAHS = await loadSurah(s); }catch(e){ return; }
+    S.from = 1; S.to = AYAHS.length; save(); updateTitle();
+  }
   if(act === 'play'){ if(n < S.from || n > S.to) setRange(n, AYAHS.length); start(n); }
   if(act === 'only'){ setRange(n, n); start(n); }
   if(act === 'start') setRange(n, Math.max(n, S.to));
   if(act === 'end') setRange(Math.min(S.from, n), n);
-  if(act === 'mem') setMemRange(S.surah, n, n, !isMem(S.surah, n));
+  if(act === 'mem') setMemRange(s, n, n, !isMem(s, n));
   if(act === 'memrange') setMemRange(S.surah, S.from, S.to, true);
 }
-let actAyah = 0;
+let actKey = [1, 1];
+async function openAct(s, n){
+  actKey = [s, n];
+  $('#actTitle').textContent = `${metaOf(s).en} · Ayah ${n}`;
+  let tr = '';
+  if(s === S.surah && AYAHS[n-1]) tr = AYAHS[n-1].tr;
+  $('#actTr').textContent = tr;
+  $('#actMem').textContent = isMem(s, n) ? '✓ Memorized · undo' : '✓ Mark memorized';
+  openSheet(true, '#actSheet');
+  if(!tr && S.tr !== 'none'){ try{ const d = await loadSurah(s); if(actKey[0] === s && actKey[1] === n) $('#actTr').textContent = (d[n-1] || {}).tr || ''; }catch(e){} }
+}
 $('#viewRead').addEventListener('click', e => {
+  const mk = e.target.closest('#mushaf [data-k]');
+  if(mk){
+    const [s, n] = mk.dataset.k.split(':').map(Number);
+    if(S.hide && !mk.classList.contains('revealed')){ $$(`#mushaf [data-k="${s}:${n}"]`).forEach(x => x.classList.add('revealed')); return; }
+    openAct(s, n); return;
+  }
   const btn = e.target.closest('button[data-act]'), el = e.target.closest('.ayah');
   if(!el) return;
   const n = +el.dataset.a;
   if(btn){ e.stopPropagation(); doAct(btn.dataset.act, n); if(btn.dataset.act !== 'mem') el.classList.remove('open'); return; }
   if(S.hide) el.classList.toggle('revealed');
-  if(S.layout === 'page'){
-    actAyah = n;
-    const a = AYAHS[n-1];
-    $('#actTitle').textContent = `${metaOf(S.surah).en} · Ayah ${n}`;
-    $('#actTr').textContent = a && a.tr ? a.tr : '';
-    $('#actMem').textContent = isMem(S.surah, n) ? '✓ Memorized · undo' : '✓ Mark memorized';
-    openSheet(true, '#actSheet'); return;
-  }
   $$('.ayah.open').forEach(o => { if(o !== el) o.classList.remove('open'); });
   el.classList.toggle('open');
 });
-$('#actSheet').addEventListener('click', e => { const b = e.target.closest('button[data-act]'); if(!b) return; doAct(b.dataset.act, actAyah); openSheet(false); });
+$('#actSheet').addEventListener('click', e => { const b = e.target.closest('button[data-act]'); if(!b) return; doAct(b.dataset.act, actKey[1], actKey[0]); openSheet(false); });
 $('#closeAct').onclick = () => openSheet(false);
 
 const openSheet = (o, id = '#sheet') => { $$('.sheet').forEach(x => x.classList.remove('open')); if(o) $(id).classList.add('open'); $('#sheetBg').classList.toggle('open', o); };
@@ -860,7 +1100,8 @@ $('#sizeSel').onchange = e => { S.size = +e.target.value; save(); applyView(); }
 $('#basmalaChk').onchange = e => { S.basmala = e.target.checked; save(); };
 $('#followChk').onchange = e => { S.follow = e.target.checked; save(); };
 $('#hideChk').onchange = e => { S.hide = e.target.checked; save(); applyView(); };
-const setLayout = l => { S.layout = l; save(); applyView(); if(P.active) highlight(); };
+const setLayout = l => { S.layout = l; save(); applyView(); showSurah(); };
+$('#tajChk').onchange = e => { S.tajweed = e.target.checked; save(); applyView(); };
 $('#layoutBtn').onclick = () => setLayout(S.layout === 'page' ? 'lines' : 'page');
 $('#layoutSel').onchange = e => setLayout(e.target.value);
 
@@ -894,6 +1135,7 @@ document.addEventListener('keydown', e => {
 /* ---------- boot ---------- */
 (async () => {
   applyView(); status();
+  try{ Object.keys(localStorage).forEach(k => { if(k.startsWith('hq_surah_')) localStorage.removeItem(k); }); }catch(e){}
   try{ await loadMeta(); }
   catch(e){
     $('#viewRead').innerHTML = `<div class="msg">Could not reach the Qur'an server (${esc(e.message)}).<br>Check your internet connection.<br><br><button class="iconbtn" onclick="location.reload()">Reload</button></div>`;
