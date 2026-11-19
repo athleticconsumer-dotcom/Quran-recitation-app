@@ -68,17 +68,6 @@ header{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px s
 .bar i{display:block;height:100%;background:var(--accent);transition:width .3s}
 .prog-txt{font-size:13px;color:var(--muted);margin-top:6px}
 .head-btns{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
-/* whole page layout */
-.page-mode #ayahWrap{direction:rtl;text-align:justify;text-align-last:center;background:var(--card);border:1px solid var(--line);border-radius:14px;
-  padding:18px 16px;font-family:"Amiri Quran",serif;font-size:var(--qsize,30px);line-height:2.35}
-.page-mode .ayah{display:inline;background:none;border:0;padding:3px 0;margin:0;border-radius:8px;box-shadow:none;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-.page-mode .ayah .ar{display:inline;font-size:inherit;line-height:inherit}
-.page-mode .ayah-top,.page-mode .ayah .tr,.page-mode .ayah .acts{display:none!important}
-.page-mode .ayah.inrange{background:var(--range)}
-.page-mode.full-range .ayah.inrange:not(.playing){background:none}
-.page-mode .ayah.playing{background:var(--play);box-shadow:none}
-.page-mode .ayah.mem{border-left:0}
-.page-mode .ayah.mem .num{background:var(--accent);color:#fff}
 .msg{text-align:center;color:var(--muted);padding:40px 10px}
 
 /* choose */
@@ -197,7 +186,6 @@ header{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px s
 <header>
   <div class="hrow">
     <button class="title" id="titleBtn"><span class="tx"><b id="titleMain">Qur'an</b><small id="titleSub">Choose a surah</small></span><span class="chev">▾</span></button>
-    <button class="iconbtn" id="layoutBtn" aria-label="Switch layout">▤ Page</button>
     <button class="iconbtn" id="openSettings" aria-label="Settings">⚙︎</button>
   </div>
   <nav class="tabs">
@@ -241,7 +229,6 @@ header{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px s
   <div class="field"><span>Basmala before ayah 1</span><input type="checkbox" id="basmalaChk"></div>
   <div class="field"><span>Follow the reciter<small>Scroll to the ayah being recited</small></span><input type="checkbox" id="followChk"></div>
   <h3 style="margin-top:20px">Reading</h3>
-  <div class="field"><span>Layout</span><select id="layoutSel"><option value="lines">Line by line</option><option value="page">Whole page</option></select></div>
   <div class="field"><span>Translation</span><select id="trSel"></select></div>
   <div class="field"><span>Arabic text size</span><select id="sizeSel"></select></div>
   <div class="field"><span>Hide text (test yourself)<small>Tap an ayah to reveal it</small></span><input type="checkbox" id="hideChk"></div>
@@ -255,20 +242,6 @@ header{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px s
   </div>
   <button class="done" id="closeSettings">Done</button>
   <p class="credit">Audio: <a href="https://everyayah.com" target="_blank" rel="noopener">everyayah.com</a> (fallback: islamic.network) · Text: <a href="https://alquran.cloud" target="_blank" rel="noopener">alquran.cloud</a> (Uthmani)</p>
-</div>
-
-<div class="sheet" id="actSheet" role="dialog" aria-label="Ayah actions">
-  <h3 id="actTitle"></h3>
-  <p class="act-tr" id="actTr"></p>
-  <div class="act-grid">
-    <button class="primary" data-act="play">▶ Play from here</button>
-    <button data-act="only">Repeat only this</button>
-    <button data-act="start">Set as start</button>
-    <button data-act="end">Set as end</button>
-    <button data-act="mem" id="actMem">✓ Memorized</button>
-    <button data-act="memrange">✓ Mark range memorized</button>
-  </div>
-  <button class="done" id="closeAct">Close</button>
 </div>
 
 <audio id="audio" preload="auto"></audio>
@@ -299,7 +272,7 @@ const JUZ = [[1,1],[2,142],[2,253],[3,93],[4,24],[4,148],[5,82],[6,111],[7,88],[
   [18,75],[21,1],[23,1],[25,21],[27,56],[29,46],[33,31],[36,28],[39,32],[41,47],[46,1],[51,31],[58,1],[67,1],[78,1]];
 
 const S = Object.assign({surah:1, from:1, to:7, repAyah:3, repRange:0, gap:0, speed:1, reciter:'murattal',
-  tr:'de.bubenheim', size:30, layout:'lines', hide:false, basmala:true, follow:true}, store.get('settings', {}));
+  tr:'de.bubenheim', size:30, hide:false, basmala:true, follow:true}, store.get('settings', {}));
 const save = () => store.set('settings', S);
 const PR = Object.assign({mem:{}, working:[], sec:{}, days:{}, total:0}, store.get('progress', {}));
 const saveProgress = () => store.set('progress', PR);
@@ -401,7 +374,6 @@ function showView(v){
   $('#view' + v[0].toUpperCase() + v.slice(1)).classList.add('on');
   $$('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.view === v));
   $('#player').classList.toggle('hidden', v !== 'read');
-  $('#layoutBtn').style.display = v === 'read' ? '' : 'none';
   if(v === 'choose') renderChoose();
   if(v === 'progress') renderProgress();
   window.scrollTo(0, 0);
@@ -551,10 +523,7 @@ function applyView(){
   document.documentElement.style.setProperty('--qsize', S.size + 'px');
   const r = $('#viewRead');
   r.classList.toggle('hide', S.hide);
-  r.classList.toggle('page-mode', S.layout === 'page');
   $('#hideBtn').textContent = S.hide ? 'Show text' : 'Hide text';
-  $('#layoutBtn').textContent = S.layout === 'page' ? '☰ Lines' : '▤ Page';
-  $('#layoutSel').value = S.layout;
 }
 function updateSurahProgress(){
   const bar = $('#surahBar'); if(!bar) return;
@@ -800,26 +769,15 @@ function doAct(act, n){
   if(act === 'mem') setMemRange(S.surah, n, n, !isMem(S.surah, n));
   if(act === 'memrange') setMemRange(S.surah, S.from, S.to, true);
 }
-let actAyah = 0;
 $('#viewRead').addEventListener('click', e => {
   const btn = e.target.closest('button[data-act]'), el = e.target.closest('.ayah');
   if(!el) return;
   const n = +el.dataset.a;
   if(btn){ e.stopPropagation(); doAct(btn.dataset.act, n); if(btn.dataset.act !== 'mem') el.classList.remove('open'); return; }
   if(S.hide) el.classList.toggle('revealed');
-  if(S.layout === 'page'){
-    actAyah = n;
-    const a = AYAHS[n-1];
-    $('#actTitle').textContent = `${metaOf(S.surah).en} · Ayah ${n}`;
-    $('#actTr').textContent = a && a.tr ? a.tr : '';
-    $('#actMem').textContent = isMem(S.surah, n) ? '✓ Memorized · undo' : '✓ Mark memorized';
-    openSheet(true, '#actSheet'); return;
-  }
   $$('.ayah.open').forEach(o => { if(o !== el) o.classList.remove('open'); });
   el.classList.toggle('open');
 });
-$('#actSheet').addEventListener('click', e => { const b = e.target.closest('button[data-act]'); if(!b) return; doAct(b.dataset.act, actAyah); openSheet(false); });
-$('#closeAct').onclick = () => openSheet(false);
 
 const openSheet = (o, id = '#sheet') => { $$('.sheet').forEach(x => x.classList.remove('open')); if(o) $(id).classList.add('open'); $('#sheetBg').classList.toggle('open', o); };
 $('#openSettings').onclick = () => openSheet(true);
@@ -860,9 +818,6 @@ $('#sizeSel').onchange = e => { S.size = +e.target.value; save(); applyView(); }
 $('#basmalaChk').onchange = e => { S.basmala = e.target.checked; save(); };
 $('#followChk').onchange = e => { S.follow = e.target.checked; save(); };
 $('#hideChk').onchange = e => { S.hide = e.target.checked; save(); applyView(); };
-const setLayout = l => { S.layout = l; save(); applyView(); if(P.active) highlight(); };
-$('#layoutBtn').onclick = () => setLayout(S.layout === 'page' ? 'lines' : 'page');
-$('#layoutSel').onchange = e => setLayout(e.target.value);
 
 // backup
 $('#copyBackup').onclick = async () => {
