@@ -43,6 +43,38 @@ main{max-width:820px;margin:0 auto;padding:12px 12px 190px}
 .ayah.open .acts{display:flex}
 .acts button{border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:999px;padding:7px 13px;font-size:14px;cursor:pointer}
 .acts button.primary{background:var(--accent);color:#fff}
+.ayah-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
+.ref{font-size:12px;color:var(--muted)}
+.chk{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--line);background:transparent;color:var(--muted);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.ayah.mem{border-left:4px solid var(--accent)}
+.ayah.mem .chk{background:var(--accent);border-color:var(--accent);color:#fff}
+.prog{margin:12px auto 0;max-width:440px}
+.bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);transition:width .3s}
+.prog-txt{font-size:13px;color:var(--muted);margin-top:6px}
+.head-btns{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.pill{border:1px solid var(--accent);color:var(--accent);background:transparent;border-radius:999px;padding:7px 13px;font-size:14px;cursor:pointer}
+.pill.on{background:var(--accent);color:#fff}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+.stat{background:var(--bg);border-radius:12px;padding:12px}
+.stat b{display:block;font-size:20px}
+.stat span{font-size:12px;color:var(--muted)}
+.sec-title{font-size:14px;font-weight:600;margin:18px 0 4px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:15px;cursor:pointer}
+.row small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.row .t{white-space:nowrap;font-weight:600;font-size:14px}
+.mini{height:5px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:5px;width:140px}
+.mini i{display:block;height:100%;background:var(--accent)}
+.days{display:flex;align-items:flex-end;gap:6px;height:90px;margin-top:8px}
+.days div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:11px;color:var(--muted)}
+.days i{display:block;width:100%;background:var(--accent);border-radius:5px 5px 0 0;min-height:2px}
+.add-row{display:flex;gap:8px;margin-top:8px}
+.add-row input{flex:1;min-width:0;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+.add-row button{border:none;background:var(--accent);color:#fff;border-radius:10px;padding:10px 14px;font:inherit;cursor:pointer}
+.empty{color:var(--muted);font-size:14px;padding:8px 0}
+.trow{display:flex;align-items:center;justify-content:center;gap:10px;font-size:12.5px;opacity:.9;margin-bottom:8px}
+.trow .small{font-size:12.5px;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:4px 10px;background:none;color:var(--bar-ink);cursor:pointer}
+.trow .small.on{background:#d9a521;border-color:#d9a521;color:#1d2622}
 .msg{text-align:center;color:var(--muted);padding:40px 10px}
 .msg button{margin-top:10px}
 
@@ -82,7 +114,8 @@ main{max-width:820px;margin:0 auto;padding:12px 12px 190px}
 <body>
 <header>
   <select id="surahSel" aria-label="Surah"><option>Loading surahs…</option></select>
-  <button class="iconbtn" id="openSettings" aria-label="Settings">⚙︎ Settings</button>
+  <button class="iconbtn" id="openProgress" aria-label="Progress">📊</button>
+  <button class="iconbtn" id="openSettings" aria-label="Settings">⚙︎</button>
 </header>
 
 <main id="main"><div class="msg">Loading…</div></main>
@@ -98,6 +131,7 @@ main{max-width:820px;margin:0 auto;padding:12px 12px 190px}
       <select id="repRangeQuick"></select>
     </div>
     <div class="status" id="status">Select a range and press play</div>
+    <div class="trow"><span id="timeLine">⏱ 0:00 on this section</span><button class="small" id="timerBtn">⏱ Practice without audio</button></div>
     <div class="controls">
       <button class="small" id="hideBtn">Hide text</button>
       <button id="prevBtn" aria-label="Previous ayah"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zM9.5 12 18 18V6z"/></svg></button>
@@ -124,6 +158,13 @@ main{max-width:820px;margin:0 auto;padding:12px 12px 190px}
   <div class="field"><span>Hide text (test yourself)<small>Tap an ayah to reveal it</small></span><input type="checkbox" id="hideChk"></div>
   <button class="done" id="closeSettings">Done</button>
   <p class="credit">Audio: <a href="https://everyayah.com" target="_blank" rel="noopener">everyayah.com</a> (fallback: islamic.network) · Text: <a href="https://alquran.cloud" target="_blank" rel="noopener">alquran.cloud</a> (Uthmani)</p>
+</div>
+
+<div class="sheet" id="progSheet" role="dialog" aria-label="Progress">
+  <h3>Memorization progress</h3>
+  <div id="progBody"></div>
+  <button class="done" id="closeProgress">Done</button>
+  <p class="credit">Progress is saved in this browser on this device.</p>
 </div>
 
 <audio id="audio" preload="auto"></audio>
@@ -176,7 +217,15 @@ async function loadMeta(){
     META = (await getJSON('https://api.alquran.cloud/v1/surah')).map(s => ({n:s.number, ar:s.name, en:s.englishName, tr:s.englishNameTranslation, count:s.numberOfAyahs}));
     store.set('meta', META);
   }
-  $('#surahSel').innerHTML = META.map(s => `<option value="${s.n}">${s.n}. ${esc(s.en)} · ${esc(s.ar.replace(/^سُورَةُ\s*/, ''))} (${s.count})</option>`).join('');
+  renderSurahOptions();
+}
+function renderSurahOptions(){
+  const sel = $('#surahSel'), v = sel.value || S.surah;
+  sel.innerHTML = META.map(s => {
+    const c = memCount(s.n), mark = c >= s.count ? '✓ ' : PR.working.includes(s.n) ? '★ ' : c ? '◐ ' : '';
+    return `<option value="${s.n}">${mark}${s.n}. ${esc(s.en)} · ${esc(s.ar.replace(/^سُورَةُ\s*/, ''))} (${s.count})</option>`;
+  }).join('');
+  sel.value = v;
 }
 
 const norm = s => s.replace(/^﻿/, '').replace(/[ً-ٰٟۖ-ۭـ]/g, '').replace(/[ٱأإآ]/g, 'ا');
@@ -217,9 +266,15 @@ async function showSurah(){
   }
   const m = meta(), count = AYAHS.length;
   S.from = Math.min(Math.max(1, S.from), count); S.to = Math.min(Math.max(S.from, S.to), count); save();
-  let html = `<div class="surah-head"><div class="ar">${esc(m.ar)}</div><div class="en">${esc(m.en)} · ${esc(m.tr || '')} · ${count} ayat</div></div>`;
+  let html = `<div class="surah-head"><div class="ar">${esc(m.ar)}</div><div class="en">${esc(m.en)} · ${esc(m.tr || '')} · ${count} ayat</div>
+    <div class="prog"><div class="bar"><i id="surahBar"></i></div><div class="prog-txt" id="surahProg"></div></div>
+    <div class="head-btns">
+      <button class="pill" id="workBtn">★ Working on this</button>
+      <button class="pill" id="memAllBtn">✓ Mark surah memorized</button>
+    </div></div>`;
   if(S.surah !== 1 && S.surah !== 9) html += `<div class="basmala">${BASMALA}</div>`;
-  html += AYAHS.map(a => `<div class="ayah" data-a="${a.n}" id="a${a.n}">
+  html += AYAHS.map(a => `<div class="ayah${isMem(S.surah,a.n)?' mem':''}" data-a="${a.n}" id="a${a.n}">
+      <div class="ayah-top"><button class="chk" data-act="mem" aria-label="Mark ayah ${a.n} memorized">✓</button><span class="ref">${S.surah}:${a.n}</span></div>
       <div class="ar"><span class="txt">${esc(a.text)}</span> <span class="num">${arDigits(a.n)}</span></div>
       ${a.tr ? `<div class="tr"><b>${a.n}.</b> ${esc(a.tr)}</div>` : ''}
       <div class="acts">
@@ -227,11 +282,18 @@ async function showSurah(){
         <button data-act="only">Repeat only this</button>
         <button data-act="start">Set as start</button>
         <button data-act="end">Set as end</button>
+        <button data-act="memrange">✓ Mark range memorized</button>
       </div></div>`).join('');
   main.innerHTML = html;
   const nums = Array.from({length:count}, (_, i) => [i+1, String(i+1)]);
   fill($('#fromSel'), nums, S.from); fill($('#toSel'), nums, S.to);
-  markRange(); applyView();
+  markRange(); applyView(); updateSurahProgress();
+  $('#workBtn').onclick = () => { toggleWorking(S.surah); updateSurahProgress(); };
+  $('#memAllBtn').onclick = () => {
+    const all = memCount(S.surah) === AYAHS.length;
+    if(all && !confirm('Remove all checkmarks of this surah?')) return;
+    setMemRange(S.surah, 1, AYAHS.length, !all);
+  };
   if(P.active) highlight();
 }
 
@@ -343,6 +405,137 @@ function mediaSession(){
   }catch(e){}
 }
 
+/* ---------- progress & time tracking ---------- */
+const PR = Object.assign({mem:{}, working:[], sec:{}, days:{}, total:0}, store.get('progress', {}));
+const saveProgress = () => store.set('progress', PR);
+const today = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); };
+const isMem = (s, a) => !!(PR.mem[s] && PR.mem[s][a]);
+const memCount = s => PR.mem[s] ? Object.keys(PR.mem[s]).length : 0;
+const surahCount = s => (META.find(m => m.n === s) || {}).count || (s === S.surah ? AYAHS.length : 0);
+function setMemRange(s, f, t, v){
+  PR.mem[s] = PR.mem[s] || {};
+  for(let a = f; a <= t; a++){ if(v) PR.mem[s][a] = 1; else delete PR.mem[s][a]; }
+  if(!Object.keys(PR.mem[s]).length) delete PR.mem[s];
+  saveProgress();
+  if(s === S.surah) for(let a = f; a <= t; a++){ const el = document.getElementById('a' + a); if(el) el.classList.toggle('mem', v); }
+  updateSurahProgress(); renderSurahOptions();
+}
+function toggleWorking(s){
+  const i = PR.working.indexOf(s);
+  if(i >= 0) PR.working.splice(i, 1); else PR.working.push(s);
+  saveProgress(); renderSurahOptions();
+}
+function surahTime(s){ let t = 0; for(const k in PR.sec) if(+k.split(':')[0] === s) t += PR.sec[k].t; return t; }
+function fmtDur(sec){
+  sec = Math.round(sec);
+  const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60);
+  if(h) return `${h} h ${m} min`;
+  if(m) return `${m} min`;
+  return `${sec} s`;
+}
+const fmtClock = sec => { sec = Math.floor(sec); const h = Math.floor(sec/3600), m = Math.floor(sec%3600/60), x = String(sec%60).padStart(2,'0'); return h ? `${h}:${String(m).padStart(2,'0')}:${x}` : `${m}:${x}`; };
+const secKey = () => `${S.surah}:${S.from}-${S.to}`;
+const secName = k => { const [s, r] = k.split(':'); const m = META.find(x => x.n === +s); return `${m ? m.en : 'Surah ' + s} ${r.replace('-', '–')}`; };
+
+function updateSurahProgress(){
+  const bar = $('#surahBar'); if(!bar) return;
+  const n = AYAHS.length, c = memCount(S.surah), pct = n ? Math.round(c / n * 100) : 0;
+  bar.style.width = pct + '%';
+  const t = surahTime(S.surah);
+  $('#surahProg').textContent = `${c} / ${n} ayat memorized (${pct}%)` + (t ? ` · ⏱ ${fmtDur(t)} practiced` : '');
+  $('#workBtn').classList.toggle('on', PR.working.includes(S.surah));
+  $('#workBtn').textContent = PR.working.includes(S.surah) ? '★ Working on this' : '☆ Working on this';
+  $('#memAllBtn').textContent = c === n && n ? '✓ Memorized · undo' : '✓ Mark surah memorized';
+  $('#memAllBtn').classList.toggle('on', c === n && n > 0);
+}
+
+let manualTimer = false, unsaved = 0;
+const practicing = () => manualTimer || (P.active && (!audio.paused || !!P.timer));
+function updateTimeLine(){
+  const k = secKey(), t = PR.sec[k] ? PR.sec[k].t : 0, d = PR.days[today()] || 0;
+  $('#timeLine').textContent = `⏱ ${fmtClock(t)} on ${S.from}–${S.to} · today ${fmtDur(d)}` + (practicing() ? ' ●' : '');
+}
+setInterval(() => {
+  if(practicing() && !document.hidden || (practicing() && !audio.paused)){
+    const k = secKey();
+    PR.sec[k] = PR.sec[k] || {t:0, last:today()};
+    PR.sec[k].t += 1; PR.sec[k].last = today();
+    PR.days[today()] = (PR.days[today()] || 0) + 1;
+    PR.total = (PR.total || 0) + 1;
+    if(++unsaved >= 10){ saveProgress(); unsaved = 0; }
+  }
+  updateTimeLine();
+}, 1000);
+['pagehide', 'visibilitychange'].forEach(ev => addEventListener(ev, saveProgress));
+$('#timerBtn').onclick = () => {
+  manualTimer = !manualTimer;
+  $('#timerBtn').classList.toggle('on', manualTimer);
+  $('#timerBtn').textContent = manualTimer ? '⏸ Stop practice timer' : '⏱ Practice without audio';
+  saveProgress(); updateTimeLine();
+};
+
+function jumpTo(s, f, t){
+  stop(); S.surah = s;
+  const n = surahCount(s) || 1;
+  S.from = f || 1; S.to = t || n; save();
+  openSheet(false); window.scrollTo(0, 0); showSurah();
+}
+function renderProgress(){
+  saveProgress();
+  const totalMem = Object.keys(PR.mem).reduce((a, s) => a + memCount(+s), 0);
+  const full = META.filter(m => memCount(m.n) >= m.count).length;
+  let h = `<div class="stats">
+    <div class="stat"><b>${totalMem}</b><span>of 6236 ayat memorized (${(totalMem/6236*100).toFixed(1)}%)</span></div>
+    <div class="stat"><b>${full}</b><span>of 114 surahs complete</span></div>
+    <div class="stat"><b>${fmtDur(PR.days[today()] || 0)}</b><span>practiced today</span></div>
+    <div class="stat"><b>${fmtDur(PR.total || 0)}</b><span>practiced in total</span></div></div>`;
+
+  // last 7 days
+  const days = [];
+  for(let i = 6; i >= 0; i--){ const d = new Date(); d.setDate(d.getDate() - i);
+    const k = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    days.push([d.toLocaleDateString(undefined, {weekday:'short'}), PR.days[k] || 0]); }
+  const max = Math.max(60, ...days.map(d => d[1]));
+  h += `<div class="sec-title">Last 7 days</div><div class="days">${days.map(([l, v]) =>
+    `<div title="${fmtDur(v)}"><span>${v >= 60 ? Math.round(v/60) + 'm' : ''}</span><i style="height:${Math.round(v/max*70)}px"></i>${esc(l)}</div>`).join('')}</div>`;
+
+  // working on
+  h += `<div class="sec-title">Working on</div>`;
+  h += PR.working.length ? PR.working.map(s => {
+    const m = META.find(x => x.n === s) || {en:'Surah ' + s, count:0}, c = memCount(s), pct = m.count ? Math.round(c/m.count*100) : 0;
+    return `<div class="row" data-jump="${s}"><div>${s}. ${esc(m.en)}<small>${c}/${m.count} ayat · ${fmtDur(surahTime(s))}</small><div class="mini"><i style="width:${pct}%"></i></div></div><span class="t">${pct}%</span></div>`;
+  }).join('') : `<div class="empty">Tap "☆ Working on this" at the top of a surah to add it here.</div>`;
+
+  // sections
+  const secs = Object.entries(PR.sec).sort((a, b) => (b[1].last || '').localeCompare(a[1].last || '') || b[1].t - a[1].t);
+  h += `<div class="sec-title">Time per section</div>`;
+  h += secs.length ? secs.map(([k, v]) => {
+    const [s, r] = k.split(':'), [f, t] = r.split('-');
+    const last = v.last ? new Date(v.last + 'T12:00').toLocaleDateString(undefined, {day:'numeric', month:'short'}) : '';
+    return `<div class="row" data-jump="${s}" data-f="${f}" data-t="${t}"><div>${esc(secName(k))}<small>last practiced ${last}</small></div><span class="t">${fmtDur(v.t)}</span></div>`;
+  }).join('') : `<div class="empty">Time is tracked automatically while the recitation plays, or with the practice timer.</div>`;
+
+  // completed surahs
+  const done = META.filter(m => memCount(m.n) >= m.count);
+  if(done.length) h += `<div class="sec-title">Memorized surahs</div>` + done.map(m =>
+    `<div class="row" data-jump="${m.n}"><div>✓ ${m.n}. ${esc(m.en)}</div><span class="t">${m.count} ayat</span></div>`).join('');
+
+  h += `<div class="sec-title">Add time manually</div>
+    <div class="empty">For ${esc(secName(secKey()))}</div>
+    <div class="add-row"><input type="number" id="addMin" min="1" placeholder="Minutes" inputmode="numeric"><button id="addMinBtn">Add</button></div>`;
+
+  const body = $('#progBody'); body.innerHTML = h;
+  body.querySelectorAll('[data-jump]').forEach(r => r.onclick = () => jumpTo(+r.dataset.jump, +r.dataset.f || 0, +r.dataset.t || 0));
+  $('#addMinBtn').onclick = () => {
+    const m = parseFloat($('#addMin').value); if(!(m > 0)) return;
+    const k = secKey(), sec = Math.round(m * 60);
+    PR.sec[k] = PR.sec[k] || {t:0, last:today()};
+    PR.sec[k].t += sec; PR.sec[k].last = today();
+    PR.days[today()] = (PR.days[today()] || 0) + sec; PR.total = (PR.total || 0) + sec;
+    saveProgress(); renderProgress(); updateSurahProgress(); updateTimeLine();
+  };
+}
+
 /* ---------- UI wiring ---------- */
 function setRange(from, to){
   S.from = from; S.to = Math.max(from, to); save(); markRange(); status();
@@ -359,6 +552,8 @@ $('#main').addEventListener('click', e => {
     if(act === 'only'){ setRange(n, n); start(n); }
     if(act === 'start') setRange(n, Math.max(n, S.to));
     if(act === 'end') setRange(Math.min(S.from, n), n);
+    if(act === 'mem'){ setMemRange(S.surah, n, n, !isMem(S.surah, n)); return; }
+    if(act === 'memrange') setMemRange(S.surah, S.from, S.to, true);
     el.classList.remove('open'); return;
   }
   if(S.hide) el.classList.toggle('revealed');
@@ -380,9 +575,15 @@ $('#nextBtn').onclick = () => step(1);
 $('#hideBtn').onclick = () => { S.hide = !S.hide; $('#hideChk').checked = S.hide; save(); applyView(); };
 
 // settings sheet
-const openSheet = o => { $('#sheet').classList.toggle('open', o); $('#sheetBg').classList.toggle('open', o); };
+const openSheet = (o, id = '#sheet') => {
+  document.querySelectorAll('.sheet').forEach(x => x.classList.remove('open'));
+  if(o) $(id).classList.add('open');
+  $('#sheetBg').classList.toggle('open', o);
+};
 $('#openSettings').onclick = () => openSheet(true);
 $('#closeSettings').onclick = () => openSheet(false);
+$('#openProgress').onclick = () => { renderProgress(); openSheet(true, '#progSheet'); };
+$('#closeProgress').onclick = () => openSheet(false);
 $('#sheetBg').onclick = () => openSheet(false);
 
 fill($('#reciterSel'), Object.entries(RECITERS).map(([k,v]) => [k, v.label]), S.reciter);
